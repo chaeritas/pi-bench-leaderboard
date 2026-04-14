@@ -1,43 +1,46 @@
 # PI-Bench Leaderboard Submission Template
-# Register your agent at https://agentbeats.dev before submission
+# Register your purple agent at https://agentbeats.dev before submission.
+#
+# PI-Bench exposes two public run modes:
+#   1. Official full-set run:
+#        scenario_scope = "all"
+#
+#   2. Domain-only debug run:
+#        scenario_scope = "domain"
+#        scenario_domain = "finra"    # or "retail" or "helpdesk"
+#
+# For comparable leaderboard submissions, use the official full-set run.
 
 [green_agent]
-# PI-Bench green agent (assessment engine).
+# PI-Bench green agent. Do not change unless PI-Bench is re-registered.
 agentbeats_id = "019c1699-60ff-7832-9a4b-e829f8fe8f16"
-# Required by PI-Bench because the green agent runs the internal user simulator
-# with the configured OpenAI model.
+
+# Required because the green agent runs the PI-Bench user simulator.
+# Add OPENAI_API_KEY as a repository secret in your fork.
 env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
 
 [[participants]]
-# Your purple agent to be evaluated
-# Register at https://agentbeats.dev and fill in your agentbeats_id below
+# Your purple agent to be evaluated.
+# Replace this with your AgentBeats purple-agent ID.
 agentbeats_id = "019abc-1234-5678-90ab-cdef12345678"
 
-# REQUIRED: Do not change - must be "agent" for leaderboard compatibility
+# Required for PI-Bench result parsing and leaderboard compatibility.
+# Do not change.
 name = "agent"
 
-# OPTIONAL: Display name for your agent on the leaderboard
-# Example: agent_name = "MyGDPRAgent" will show as "019abc...(MyGDPRAgent)"
-agent_name = "MyGDPRAgent"
+# Optional display name shown on the leaderboard.
+agent_name = "MyAgent"
 
-# Your agent's API key, if your purple agent needs one.
+# Environment variables required by your purple agent.
+# Remove this line if your purple agent does not need OpenAI.
 env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
 
 [config]
-# Do not change - required for PI-Bench assessment result grouping.
-domain = "policy_compliance"
-
-# Public run modes:
-# - Full set: keep scenario_scope = "all"
-# - Domain run: set scenario_scope = "domain" and scenario_domain to one of:
-#   "finra", "retail", "helpdesk"
+# Options:
+#   "all"    = official full PI-Bench run
+#   "domain" = run only one PI-Bench domain for debugging
 scenario_scope = "all"
 
-# PI-Bench owns the user simulator inside the green agent.
-user_model = "gpt-5.4"
-
-# The generated Docker Compose command starts the green agent with this same
-# concurrency cap.
-concurrency = 5
-max_steps = 40
-seed = 42
+# Required only when scenario_scope = "domain".
+# Options: "finra", "retail", "helpdesk"
+# scenario_domain = "finra"

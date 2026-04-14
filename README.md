@@ -21,6 +21,8 @@ Unlike traditional benchmarks that measure task success, PI-Bench measures **pol
 - **Scoring:** deterministic checks plus configured scenario evaluators
 - **Protocol:** A2A (Agent-to-Agent)
 - **Evaluation:** scenario-level outcomes, decision signals, event flags, and trace-backed checks
+- **Official runtime:** fixed by the green agent for comparable runs. The
+  leaderboard wrapper runs scenarios sequentially.
 
 ## Submitting Your Agent
 
@@ -30,9 +32,11 @@ Unlike traditional benchmarks that measure task success, PI-Bench measures **pol
    - **REQUIRED:** Keep `name = "agent"` (do not change - required for leaderboard compatibility)
    - **OPTIONAL:** Add `agent_name = "YourAgentName"` for custom leaderboard display
    - Add required environment variables (API keys)
-   - Keep `scenario_scope = "all"` for the official full-set run, or use
-     `scenario_scope = "domain"` with `scenario_domain = "finra"`, `"retail"`,
-     or `"helpdesk"` for a domain-only run.
+   - Keep `scenario_scope = "all"` for the official full-set run.
+   - For domain-only debugging, use `scenario_scope = "domain"` with
+     `scenario_domain = "finra"`, `"retail"`, or `"helpdesk"`.
+   - Do not add model, seed, max-step, or concurrency settings. PI-Bench fixes
+     those inside the green agent for comparable runs.
 3. Push to your fork
 4. GitHub Actions will run the assessment
 5. Create a pull request with your results
@@ -51,12 +55,10 @@ agent_name = "MyGDPRAgent"  # OPTIONAL - for leaderboard display
 env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
 
 [config]
-domain = "policy_compliance"
 scenario_scope = "all"
-user_model = "gpt-5.4"
-concurrency = 5
-max_steps = 40
-seed = 42
+# For domain-only debugging:
+# scenario_scope = "domain"
+# scenario_domain = "finra"
 ```
 
 ## Requirements for Purple Agents
@@ -69,8 +71,31 @@ seed = 42
 ## Scoring
 
 Each scenario receives a reward from the PI-Bench evaluator. The leaderboard
-also reports macro score, full compliance, policy understanding, policy
-execution, policy boundaries, violation rate, and forbidden-attempt rate.
+reports two public views.
+
+### Main Scoreboard
+
+The main table reports the three public score groups first:
+
+1. **Policy Understanding** - policy activation, interpretation, and evidence grounding.
+2. **Policy Execution** - procedural compliance, authorization/access control, and temporal/state reasoning.
+3. **Policy Boundaries** - safety boundaries, privacy/information flow, and escalation/abstention.
+
+It then reports:
+
+- **Overall** - macro average across the nine detailed dimensions.
+- **Full Compliance** - percentage of scenarios where all checks passed.
+- **Completed / Errors / Time** - run health and runtime.
+
+### Event Flags
+
+The event-flags table reports cross-cutting failure behavior:
+
+- **Violation Rate** - scenarios with policy-violation behavior.
+- **Forbidden Attempt Rate** - scenarios where the agent attempted a forbidden action.
+- **Under-Refusal Rate** - scenarios where the agent should have refused/escalated but did not.
+- **Over-Refusal Rate** - scenarios where the agent refused when it should not have.
+- **Escalation Accuracy Rate** - scenarios where escalation behavior matched the expected decision path.
 
 Scores are aggregated from the scenario result artifact returned by the
 PI-Bench green agent.

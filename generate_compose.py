@@ -54,6 +54,8 @@ ENV_PATH = ".env.example"
 
 DEFAULT_PORT = 9009
 DEFAULT_ENV_VARS = {"PYTHONUNBUFFERED": "1"}
+GREEN_CONCURRENCY = 1
+PUBLIC_CONFIG_KEYS = {"scenario_scope", "scenario_domain"}
 
 COMPOSE_TEMPLATE = """# Auto-generated from scenario.toml
 
@@ -178,8 +180,6 @@ def format_depends_on(services: list) -> str:
 def generate_docker_compose(scenario: dict[str, Any]) -> str:
     green = scenario["green_agent"]
     participants = scenario.get("participants", [])
-    config = scenario.get("config", {})
-    green_concurrency = int(config.get("concurrency", 1))
 
     participant_names = [p["name"] for p in participants]
 
@@ -198,7 +198,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
     return COMPOSE_TEMPLATE.format(
         green_image=green["image"],
         green_port=DEFAULT_PORT,
-        green_concurrency=max(1, green_concurrency),
+        green_concurrency=GREEN_CONCURRENCY,
         green_env=format_env_vars(green.get("env", {})),
         green_depends=format_depends_on(participant_names),
         participant_services=participant_services,
@@ -231,7 +231,12 @@ def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
             lines.append(f"agent_name = \"{p['agent_name']}\"")
         participant_lines.append("\n".join(lines) + "\n")
 
-    config_section = scenario.get("config", {})
+    raw_config = scenario.get("config", {})
+    config_section = {
+        key: value
+        for key, value in raw_config.items()
+        if key in PUBLIC_CONFIG_KEYS and value not in (None, "")
+    }
     config_lines = [tomli_w.dumps({"config": config_section})]
 
     return A2A_SCENARIO_TEMPLATE.format(
