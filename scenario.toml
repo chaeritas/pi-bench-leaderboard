@@ -41,6 +41,11 @@ env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
 #   "domain" = run only one PI-Bench domain for debugging
 scenario_scope = "all"
 
+# Optional concurrency for scenario execution.
+# Keep this at 1 for the official leaderboard unless PI-Bench maintainers
+# explicitly ask you to raise it. Higher values may hit model/API rate limits.
+concurrency = 1
+
 # Required only when scenario_scope = "domain".
 # Options: "finra", "retail", "helpdesk"
 # scenario_domain = "finra"

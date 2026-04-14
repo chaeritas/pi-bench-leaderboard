@@ -89,6 +89,7 @@ env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
 
 [config]
 scenario_scope = "all"
+concurrency = 1
 ```
 
 Edit these fields:
@@ -100,6 +101,7 @@ Edit these fields:
 | `participants[].agent_name` | Optional display name for the leaderboard. |
 | `participants[].env` | Add the secret placeholders your purple agent needs. |
 | `config.scenario_scope` | Use `"all"` for official comparable submissions. |
+| `config.concurrency` | Keep as `1` for the official leaderboard unless PI-Bench maintainers ask you to raise it. |
 
 Do not change `green_agent.agentbeats_id` unless PI-Bench is re-registered.
 
@@ -108,6 +110,7 @@ For domain-only debugging, use:
 ```toml
 [config]
 scenario_scope = "domain"
+concurrency = 1
 scenario_domain = "finra" # or "retail" or "helpdesk"
 ```
 
@@ -117,7 +120,12 @@ leaderboard setting is:
 ```toml
 [config]
 scenario_scope = "all"
+concurrency = 1
 ```
+
+`concurrency` controls how many scenarios the green agent may execute in
+parallel. The official template uses `1` for reproducibility and to avoid
+model/API rate-limit failures during leaderboard submissions.
 
 ### 5. Push `scenario.toml`
 
@@ -303,6 +311,8 @@ that was actually run.
 
 - Keep `participants[].name = "agent"`.
 - Use `scenario_scope = "all"` for official comparable submissions.
+- Keep `concurrency = 1` unless PI-Bench maintainers explicitly approve a
+  higher value.
 - Use domain-only mode only for debugging.
 - Do not commit raw API keys.
 - Do not change the green-agent ID unless PI-Bench is re-registered.

@@ -55,7 +55,7 @@ ENV_PATH = ".env.example"
 DEFAULT_PORT = 9009
 DEFAULT_ENV_VARS = {"PYTHONUNBUFFERED": "1"}
 GREEN_CONCURRENCY = 1
-PUBLIC_CONFIG_KEYS = {"scenario_scope", "scenario_domain"}
+PUBLIC_CONFIG_KEYS = {"scenario_scope", "scenario_domain", "concurrency"}
 
 COMPOSE_TEMPLATE = """# Auto-generated from scenario.toml
 
@@ -177,9 +177,23 @@ def format_depends_on(services: list) -> str:
     return "\n" + "\n".join(lines)
 
 
+def parse_concurrency(config: dict[str, Any]) -> int:
+    raw_value = config.get("concurrency", GREEN_CONCURRENCY)
+    try:
+        value = int(raw_value)
+    except (TypeError, ValueError):
+        print("Error: config.concurrency must be a positive integer")
+        sys.exit(1)
+    if value < 1:
+        print("Error: config.concurrency must be a positive integer")
+        sys.exit(1)
+    return value
+
+
 def generate_docker_compose(scenario: dict[str, Any]) -> str:
     green = scenario["green_agent"]
     participants = scenario.get("participants", [])
+    green_concurrency = parse_concurrency(scenario.get("config", {}))
 
     participant_names = [p["name"] for p in participants]
 
@@ -198,7 +212,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
     return COMPOSE_TEMPLATE.format(
         green_image=green["image"],
         green_port=DEFAULT_PORT,
-        green_concurrency=GREEN_CONCURRENCY,
+        green_concurrency=green_concurrency,
         green_env=format_env_vars(green.get("env", {})),
         green_depends=format_depends_on(participant_names),
         participant_services=participant_services,
