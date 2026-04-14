@@ -1,0 +1,47 @@
+# PI-Bench Leaderboard Submission Template
+# Register your purple agent at https://agentbeats.dev before submission.
+#
+# PI-Bench exposes two public run modes:
+#   1. Official full-set run:
+#        scenario_scope = "all"
+#
+#   2. Domain-only debug run:
+#        scenario_scope = "domain"
+#        scenario_domain = "finra"    # or "retail" or "helpdesk"
+#
+# For comparable leaderboard submissions, use this official full-set assessment.
+# Trigger: 2026-04-14 rerun after PI-Bench green streaming capability fix.
+
+[green_agent]
+# PI-Bench green agent. Do not change unless PI-Bench is re-registered.
+agentbeats_id = "019c1699-60ff-7832-9a4b-e829f8fe8f16"
+
+# Required because the green agent runs the PI-Bench user simulator.
+# Add OPENAI_API_KEY as a repository secret in your fork.
+env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
+
+[[participants]]
+# Your purple agent to be evaluated.
+# Replace this with your AgentBeats purple-agent ID.
+agentbeats_id = "019c16a1-a3f9-7073-8ead-b8fbba319880"
+
+# Required for PI-Bench result parsing and leaderboard compatibility.
+# Do not change.
+name = "agent"
+
+# Optional display name shown on the leaderboard.
+agent_name = "Policy-GPT"
+
+# Environment variables required by your purple agent.
+# Remove this line if your purple agent does not need OpenAI.
+env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
+
+[config]
+# Options:
+#   "all"    = official full PI-Bench run
+#   "domain" = run only one PI-Bench domain for debugging
+scenario_scope = "all"
+
+# Required only when scenario_scope = "domain".
+# Options: "finra", "retail", "helpdesk"
+# scenario_domain = "finra"
