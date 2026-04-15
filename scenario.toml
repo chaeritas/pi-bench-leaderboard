@@ -11,18 +11,18 @@
 #
 # For comparable leaderboard submissions, use the official full-set run.
 
-[green_agent]                                                                                                                                                        
+[green_agent]
 agentbeats_id = "019c1699-60ff-7832-9a4b-e829f8fe8f16"                                                                                                               
 env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }                                                                                                                       
-                                                                                                                                                                       
+   
 [[participants]]                                                                                                                                                     
-agentbeats_id = "019d9285-c766-7290-8e31-32341e84d29b"
+image = "ghcr.io/chaeritas/stride-pi-bench:latest"
 name = "agent"                                                                                                                                                       
-agent_name = "STRIDE-Agent"                                                                                                                                          
-env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
-                                                                                                                                                                       
-[config]        
-scenario_scope = "all"                                                                                                                                                
+agent_name = "STRIDE-Agent"
+env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }                                                                                                                       
+                  
+[config]                                                                                                                                                             
+scenario_scope = "all"                                                                                                                                           
 
 # Optional concurrency for scenario execution.
 # Keep this at 1 for the official leaderboard unless PI-Bench maintainers
