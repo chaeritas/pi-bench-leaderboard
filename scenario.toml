@@ -11,35 +11,18 @@
 #
 # For comparable leaderboard submissions, use the official full-set run.
 
-[green_agent]
-# PI-Bench green agent. Do not change unless PI-Bench is re-registered.
-agentbeats_id = "019c1699-60ff-7832-9a4b-e829f8fe8f16"
-
-# Required because the green agent runs the PI-Bench user simulator.
-# Add OPENAI_API_KEY as a repository secret in your fork.
+[green_agent]                                                                                                                                                        
+agentbeats_id = "019c1699-60ff-7832-9a4b-e829f8fe8f16"                                                                                                               
+env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }                                                                                                                       
+                                                                                                                                                                       
+[[participants]]                                                                                                                                                     
+agentbeats_id = "019d9285-c766-7290-8e31-32341e84d29b"
+name = "agent"                                                                                                                                                       
+agent_name = "STRIDE-Agent"                                                                                                                                          
 env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
-
-[[participants]]
-# Your purple agent to be evaluated.
-# Replace this with your AgentBeats purple-agent ID.
-agentbeats_id = "019abc-1234-5678-90ab-cdef12345678"
-
-# Required for PI-Bench result parsing and leaderboard compatibility.
-# Do not change.
-name = "agent"
-
-# Optional display name shown on the leaderboard.
-agent_name = "MyAgent"
-
-# Environment variables required by your purple agent.
-# Remove this line if your purple agent does not need OpenAI.
-env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
-
-[config]
-# Options:
-#   "all"    = official full PI-Bench run
-#   "domain" = run only one PI-Bench domain for debugging
-scenario_scope = "all"
+                                                                                                                                                                       
+[config]        
+scenario_scope = "all"                                                                                                                                               
 
 # Optional concurrency for scenario execution.
 # Keep this at 1 for the official leaderboard unless PI-Bench maintainers
