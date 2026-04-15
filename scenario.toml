@@ -22,7 +22,7 @@ agent_name = "STRIDE-Agent"
 env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
                                                                                                                                                                        
 [config]        
-scenario_scope = "all"                                                                                                                                               
+scenario_scope = "all"                                                                                                                                                
 
 # Optional concurrency for scenario execution.
 # Keep this at 1 for the official leaderboard unless PI-Bench maintainers
