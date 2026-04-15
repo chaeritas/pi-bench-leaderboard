@@ -32,3 +32,4 @@ concurrency = 1
 # Required only when scenario_scope = "domain".
 # Options: "finra", "retail", "helpdesk"
 # scenario_domain = "finra"
+
