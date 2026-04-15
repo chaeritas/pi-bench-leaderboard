@@ -1,0 +1,17 @@
+{
+  "image_digests": {
+    "green-agent": "ghcr.io/jyoti-ranjan-das845/pi-bench-green@sha256:720b5531484d775b7fde0bd197963717dd279c4330400417f0f450e6fb525e7e",
+    "agent": "ghcr.io/chaeritas/stride-pi-bench@sha256:20021aa1838c7626b116706216ded4d9967e2253e97bef2f903a38b40801f6a7",
+    "agentbeats-client": "ghcr.io/agentbeats/agentbeats-client@sha256:13dfe3ef4e583a80e7ce2fe3becd0ce3b879841368a7f4fa40b6ebbabeeb014e"
+  },
+  "timestamp": "2026-04-15T20:49:13Z",
+  "github_actions": {
+    "run_url": "https://github.com/chaeritas/pi-bench-leaderboard/actions/runs/24474669557",
+    "run_logs_url": "https://api.github.com/repos/chaeritas/pi-bench-leaderboard/actions/runs/24474669557/logs",
+    "ref": "refs/heads/main",
+    "sha": "745b591cacc05068015c5bac454517569da7d821",
+    "repository_url": "https://github.com/chaeritas/pi-bench-leaderboard",
+    "workflow_ref": "chaeritas/pi-bench-leaderboard/.github/workflows/run-scenario.yml@refs/heads/main",
+    "workflow_sha": "745b591cacc05068015c5bac454517569da7d821"
+  }
+}
